@@ -6,7 +6,6 @@ pycryptodomex
 colorama
 shiboken6
 pyside6
-mock
 pyserial
 flake8
 keystone-engine

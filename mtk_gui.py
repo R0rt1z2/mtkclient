@@ -3,10 +3,10 @@
 # Licensed under GPLv3 License
 import sys
 import time
-import mock
 import threading
 import logging
 import ctypes
+from unittest import mock
 from functools import partial
 from PySide6.QtCore import Qt, QVariantAnimation, Signal, QObject, QSize, QTranslator, QLocale, QLibraryInfo, \
     Slot, QCoreApplication

@@ -19,7 +19,6 @@ dependencies = [
     "colorama",
     "shiboken6", 
     "pyside6",
-    "mock",
     "pyserial",
     "fusepy"
 ]
