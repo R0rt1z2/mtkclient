@@ -11,7 +11,6 @@ mkShell {
     fusepy
     keystone
     keystone-engine
-    mock
     pycryptodome
     pycryptodomex
     pyserial

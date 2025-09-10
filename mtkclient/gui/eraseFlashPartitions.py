@@ -1,6 +1,6 @@
 import sys
-import mock
 
+from unittest import mock
 from PySide6.QtCore import QObject, Signal
 from mtkclient.gui.toolkit import FDialog
 from mtkclient.gui.toolkit import trap_exc_during_debug, asyncThread
