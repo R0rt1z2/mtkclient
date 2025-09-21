@@ -1248,8 +1248,11 @@ class DAXFlash(metaclass=LogBase):
                     sla_enabled = self.get_sla_status()
                     if sla_enabled:
                         self.info("DA SLA is enabled")
-                        if not self.handle_sla(self.daconfig.da2):
-                            self.error("Can't bypass DA SLA")
+                        # Check if it's just bad reporting or actually enabled
+                        chip_id_check = self.get_chip_id()
+                        if chip_id_check is None:
+                            if not self.handle_sla(self.daconfig.da2):
+                                self.error("Can't bypass DA SLA")
                     else:
                         self.info("DA SLA is disabled")
                     self.reinit(True)
