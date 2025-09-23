@@ -285,7 +285,7 @@ class DAXFlash(metaclass=LogBase):
                 if self.usbwrite(pkt1):
                     if self.usbwrite(param):
                         if self.send_data(da):
-                            if addr == 0x68000000:
+                            if addr == 0x4FFF0000:
                                 if display:
                                     self.info("Extensions were accepted. Jumping to extensions...")
                             else:
@@ -1241,7 +1241,7 @@ class DAXFlash(metaclass=LogBase):
                     daextdata = self.xft.patch()
                     if daextdata is not None:
                         self.daext = False
-                        if self.boot_to(addr=0x68000000, da=daextdata):
+                        if self.boot_to(addr=0x4FFF0000, da=daextdata):
                             ret = self.send_devctrl(XCmd.CUSTOM_ACK)
                             status = self.status()
                             if status == 0x0 and unpack("<I", ret)[0] == 0xA1A2A3A4:
