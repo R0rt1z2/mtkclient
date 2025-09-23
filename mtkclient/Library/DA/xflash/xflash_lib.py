@@ -580,6 +580,8 @@ class DAXFlash(metaclass=LogBase):
             pos += 1
             nand.nand_id = bytearray(resp[pos:pos + 12])
             if nand.type != 0:
+                self.mtk.config.pagesize = nand.page_size
+                self.mtk.daloader.daconfig.pagesize = nand.page_size
                 if display:
                     self.info(f"NAND Pagesize:   {hex(nand.page_size)}")
                     self.info(f"NAND Blocksize:  {hex(nand.block_size)}")
