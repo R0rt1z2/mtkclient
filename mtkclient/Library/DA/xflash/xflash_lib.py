@@ -420,8 +420,8 @@ class DAXFlash(metaclass=LogBase):
 
                 ne = NandExtension()
                 param = pack("<IIQQ", storage, parttype, addr, length)
-                param += pack("<IIIIIIII", ne.cellusage, ne.addr_type, ne.bin_type, ne.operation_type,
-                              ne.sys_slc_percent, ne.usr_slc_percent, ne.phy_max_size, 0x0)
+                param += pack("<IIIIIIII", ne.cellusage, ne.addr_type, ne.bin_type, ne.region,
+                              ne.format_level, ne.sys_slc_percent, ne.usr_slc_percent, ne.phy_max_size)
                 if self.send_param(param):
                     status = self.status()
                     while status == 0x40040004:  # STATUS_CONTINUE
@@ -789,8 +789,9 @@ class DAXFlash(metaclass=LogBase):
                 # section: boot,user of emmc:8, LU1, LU2
                 ne = NandExtension()
                 param = pack("<IIQQ", storage, parttype, addr, size)
-                param += pack("<IIIIIIII", ne.cellusage, ne.addr_type, ne.bin_type, ne.operation_type,
-                              ne.sys_slc_percent, ne.usr_slc_percent, ne.phy_max_size, 0x0)
+                param += pack("<IIIIIIII", ne.cellusage, ne.addr_type, ne.bin_type, ne.region,
+                              ne.operation_type, ne.sys_slc_percent, ne.usr_slc_percent,
+                              ne.phy_max_size)
                 if self.send_param(param):
                     return True
             else:
@@ -806,8 +807,9 @@ class DAXFlash(metaclass=LogBase):
                 # section: boot,user of emmc:8, LU1, LU2
                 ne = NandExtension()
                 param = pack("<IIQQ", storage, parttype, addr, size)
-                param += pack("<IIIIIIII", ne.cellusage, ne.addr_type, ne.bin_type, ne.operation_type,
-                              ne.sys_slc_percent, ne.usr_slc_percent, ne.phy_max_size, 0x0)
+                param += pack("<IIIIIIII", ne.cellusage, ne.addr_type, ne.bin_type, ne.region,
+                              ne.operation_type, ne.sys_slc_percent, ne.usr_slc_percent,
+                              ne.phy_max_size)
                 self.send_param(param)
                 status = self.status()
                 if status == 0x0:
