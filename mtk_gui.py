@@ -64,6 +64,11 @@ class DeviceHandler(QObject):
         config.reconnect = True
         config.uartloglevel = 2
         self.loglevel = logging.DEBUG
+
+        if len(sys.argv) == 2:        
+            print('Using custom loader: ' + sys.argv[1])        
+            config.loader = sys.argv[1]        
+
         self.da_handler = DaHandler(Mtk(config=config, loglevel=logging.INFO), loglevel)
 
 
