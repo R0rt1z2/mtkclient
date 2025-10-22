@@ -48,7 +48,7 @@ sudo apt install python3 git libusb-1.0-0 python3-pip libfuse2
 ```
 #### For ArchLinux
 ```
-(sudo) pacman -S  python python-pip python-pipenv git libusb fuse2
+sudo pacman -S  python python-pip python-pipenv git libusb fuse2
 ```
 or
 ```
@@ -148,18 +148,18 @@ pip3 install -r requirements.txt
 
 #### Building wheel issues (creds to @Oyoh-Edmond)
 ##### Download and Install the Build Tools:
-    Go to the Visual Studio Build Tools [download](https://visualstudio.microsoft.com/visual-cpp-build-tools) page.
-    Download the installer and run it.
+- Go to the Visual Studio Build Tools [download](https://visualstudio.microsoft.com/visual-cpp-build-tools) page.
+- Download the installer and run it.
 
 ###### Select the Necessary Workloads:
-    In the installer, select the "Desktop development with C++" workload.
-    Ensure that the "MSVC v142 - VS 2019 C++ x64/x86 build tools" (or later) component is selected.
-    You can also check "Windows 10 SDK" if it’s not already selected.
+- In the installer, select the "Desktop development with C++" workload.
+- Ensure that the "MSVC v142 - VS 2019 C++ x64/x86 build tools" (or later) component is selected.
+- You can also check "Windows 10 SDK" if it’s not already selected.
 
 ###### Complete the Installation:
-    Click on the "Install" button to begin the installation.
-    Follow the prompts to complete the installation.
-    Restart your computer if required.
+- Click on the "Install" button to begin the installation.
+- Follow the prompts to complete the installation.
+- Restart your computer if required.
 
 ---------------------------------------------------------------------------------------------------------------
 ### Use kamakiri (optional, only needed for mt6260 or older)
