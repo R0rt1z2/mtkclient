@@ -48,7 +48,7 @@ sudo apt install python3 git libusb-1.0-0 python3-pip libfuse2
 ```
 #### For ArchLinux
 ```
-(sudo) pacman -S  python python-pip python-pipenv git libusb fuse2
+sudo pacman -S  python python-pip python-pipenv git libusb fuse2
 ```
 or
 ```
