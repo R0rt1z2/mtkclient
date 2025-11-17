@@ -134,7 +134,8 @@ class Port(metaclass=LogBase):
         startcmd = b"\xa0\x0a\x50\x05"
         length = len(startcmd)
         # On preloader, send 0xa0 first
-        if self.cdc.pid!=0x3:
+        brom_pids = [0x3, 0xF200, 0xD1E9, 0xD1E2, 0xD1EC, 0xD1DD]
+        if self.cdc.pid not in brom_pids:
             ep_out(startcmd[0:1])
         try:
             while i < length:
