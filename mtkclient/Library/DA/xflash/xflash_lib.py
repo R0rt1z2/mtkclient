@@ -1237,7 +1237,8 @@ class DAXFlash(metaclass=LogBase):
                             bootldr.seek(da1offset)
                             da1 = bootldr.read(da1size)
 
-                        if self.carbonara.is_vulnerable(da1):
+                        config = self.mtk.config.target_config
+                        if (config["daa"] or config["sbc"]) and self.carbonara.is_vulnerable(da1):
                              self.daconfig.da2 = self.carbonara.run_carbonara(da1, self.daconfig.da2, self)
                     
                     loaded = self.boot_to(self.daconfig.da_loader.region[stage].m_start_addr, self.daconfig.da2)

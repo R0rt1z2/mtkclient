@@ -608,7 +608,8 @@ class DAXML(metaclass=LogBase):
                         bootldr.seek(da1offset)
                         da1 = bootldr.read(da1size)
                     
-                    if self.carbonara.is_vulnerable(da1):
+                    config = self.mtk.config.target_config
+                    if (config["daa"] or config["sbc"]) and self.carbonara.is_vulnerable(da1):
                         da2 = self.carbonara.run_carbonara(da1, da2, self)
                         loaded = self.boot_to(da2offset, da2)
                         if loaded:
