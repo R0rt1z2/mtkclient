@@ -10,11 +10,11 @@ from mtkclient.config.payloads import PathConfig
 from mtkclient.Library.error import ErrorHandler
 from mtkclient.Library.utils import Progress
 from mtkclient.config.brom_config import Efuse, DAmodes
-from mtkclient.Library.Filesystem.mtkdafs import MtkDaFS
 
 try:
     from fuse import FUSE
-except ImportError:
+    from mtkclient.Library.Filesystem.mtkdafs import MtkDaFS
+except (ImportError, OSError):
     FUSE = None
 
 
