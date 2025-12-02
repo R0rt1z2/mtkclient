@@ -114,12 +114,13 @@ class PLTools(metaclass=LogBase):
     def crash(self, mode=0):
         return self.exploit.crash(mode)
 
-    def crasher(self, mtk, enforcecrash: bool = False):
+    def crasher(self, mtk, enforcecrash: bool = False, mode=None):
         if enforcecrash or self.config.meid is None:
             self.info("We're not in bootrom, trying to crash da...")
-            for crashmode in range(0, 3):
+            if mode is not None:
+                self.info(f"Using crash mode {mode}")
                 try:
-                    self.exploit.crash(crashmode)
+                    self.exploit.crash(mode)
                 except Exception as e:
                     self.__logger.debug(str(e))
                     pass
@@ -127,7 +128,19 @@ class PLTools(metaclass=LogBase):
                 mtk.port = Port(mtk=mtk, portconfig=portconfig, serialportname=mtk.port.serialportname,
                                 loglevel=self.__logger.level)
                 if mtk.preloader.init(maxtries=20):
-                    break
+                    return mtk
+            else:
+                for crashmode in range(0, 3):
+                    try:
+                        self.exploit.crash(crashmode)
+                    except Exception as e:
+                        self.__logger.debug(str(e))
+                        pass
+                    portconfig = [[0xE8D, 0x0003, 1]]
+                    mtk.port = Port(mtk=mtk, portconfig=portconfig, serialportname=mtk.port.serialportname,
+                                    loglevel=self.__logger.level)
+                    if mtk.preloader.init(maxtries=20):
+                        break
         return mtk
 
     def run_dump_brom(self, filename, btype, loader="generic_dump_payload.bin"):

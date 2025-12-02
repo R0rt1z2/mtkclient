@@ -120,6 +120,23 @@ class DaHandler(metaclass=LogBase):
                 self.info("Device is protected.")
             else:
                 self.info("Device is unprotected.")
+            
+            if mtk.config.enforcecrash and not mtk.config.is_brom:
+                crash_mode = getattr(mtk.config, 'enforcecrash', None)
+                if crash_mode is not None:
+                    self.info(f"Crash mode enforced. Using crash mode {crash_mode} to enter BROM mode...")
+                    mtk = mtk.crasher(mode=crash_mode)
+                else:
+                    self.info("Crash mode enforced. Trying to crash device to enter BROM mode...")
+                    mtk = mtk.crasher()
+                self.mtk = mtk
+                if mtk.config.is_brom:
+                    self.info("Successfully crashed device. Now in BROM mode.")
+                    if preloader is None:
+                        preloader = self.dump_preloader_ram()
+                else:
+                    self.warning("Failed to crash device or device didn't enter BROM mode.")
+            
             if mtk.config.is_brom and not mtk.config.iot:
                 self.info("Device is in BROM-Mode. Bypassing security.")
                 mtk.daloader.patch = False

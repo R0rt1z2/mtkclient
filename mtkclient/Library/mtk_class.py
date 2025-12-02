@@ -165,29 +165,8 @@ class Mtk(metaclass=LogBase):
         rmtk = self
         plt = PLTools(self, self.__logger.level)
         if self.config.enforcecrash or self.config.meid is None or not self.config.is_brom:
-            self.info("We're not in bootrom, trying to crash da...")
-            if mode is None:
-                for crashmode in range(0, 3):
-                    try:
-                        plt.crash(crashmode)
-                    except Exception:
-                        pass
-                    rmtk = Mtk(config=self.config, loglevel=self.__logger.level,
-                               serialportname=rmtk.port.serialportname)
-                    rmtk.preloader.display = display
-                    if rmtk.preloader.init(maxtries=20):
-                        if rmtk.config.is_brom:
-                            break
-            else:
-                try:
-                    plt.crash(mode)
-                except Exception as err:
-                    self.__logger.debug(str(err))
-                    pass
-                rmtk = Mtk(config=self.config, loglevel=self.__logger.level, serialportname=rmtk.port.serialportname)
-                rmtk.preloader.display = display
-                if rmtk.preloader.init(maxtries=20):
-                    return rmtk
+            rmtk = plt.crasher(rmtk, enforcecrash=True, mode=mode)
+            rmtk.preloader.display = display
         return rmtk
 
     def bypass_security(self):
