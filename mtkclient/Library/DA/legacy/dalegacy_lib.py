@@ -259,10 +259,7 @@ class DALegacy(metaclass=LogBase):
         msdc_boot_ch = 0
         self.usbwrite(pack("B", msdc_boot_ch))
         toread = 4
-        if hwcode == 0x6592:
-            is_gpt_solution = 0
-            self.usbwrite(pack(">I", is_gpt_solution))
-        elif hwcode == 0x6580 or hwcode == 0x8163 or hwcode == 0x8127:
+        if hwcode == 0x6580 or hwcode == 0x8163 or hwcode == 0x8127:
             if hwcode == 0x8127:
                 is_gpt_solution = 0
                 self.usbwrite(pack(">I", is_gpt_solution))
