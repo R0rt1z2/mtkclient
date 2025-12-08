@@ -46,7 +46,7 @@ sudo apt install python3 git libusb-1.0-0 python3-pip libfuse2
 ```
 #### ArchLinux
 ```
-(sudo) pacman -S  python python-pip python-pipenv git libusb fuse2
+sudo pacman -S  python python-pip python-pipenv git libusb fuse2
 ```
 或者
 ```
@@ -126,6 +126,10 @@ pip3 install -r requirements.txt
 #### 安装 Winfsp (用于 fuse)
 下载并安装 [此处](https://winfsp.dev/rel/)
 
+#### 安装 OpenSSL 1.1.1（用于 Python scrypt 依赖项）
+
+下载并安装 [此处](https://sourceforge.net/projects/openssl-for-windows/files/)
+
 #### 获取文件并安装
 ```
 git clone https://github.com/bkerler/mtkclient
@@ -141,18 +145,18 @@ pip3 install -r requirements.txt
 
 #### 解决编译 wheel 报错的问题 (感谢 @Oyoh-Edmond)
 ##### 下载并安装构建工具:
-    前往 Visual Studio 生成工具[下载](https://visualstudio.microsoft.com/visual-cpp-build-tools)页面。
-    下载安装程序并运行它。
+- 前往 Visual Studio 生成工具[下载](https://visualstudio.microsoft.com/visual-cpp-build-tools)页面。
+- 下载安装程序并运行它。
     
 ###### 选择必要的构建组件包:
-    在安装程序中，选择 "使用 C++ 进行桌面开发" 组件。
-    确保已选中 "MSVC v142 - VS 2019 C++ x64/x86 生成工具" (或更高版本) 组件。
-    如果尚未选中“Windows 10 SDK”，你也可以选中它。
+- 在安装程序中，选择 "使用 C++ 进行桌面开发" 组件。
+- 确保已选中 "MSVC v142 - VS 2019 C++ x64/x86 生成工具"（或更高版本）组件。
+- 如果尚未选中“Windows 10 SDK”，你也可以选中它。
 
 ###### 完成安装:
-    点击 "安装" 按钮开始安装。
-    按照提示完成安装。
-    如有需要，请重启电脑。
+- 点击 "安装" 按钮开始安装。
+- 按照提示完成安装。
+- 如有需要，请重启电脑。
 
 ---------------------------------------------------------------------------------------------------------------
 ### 使用 kamakiri (可选，仅适用于 mt6260 或更早的处理器)
