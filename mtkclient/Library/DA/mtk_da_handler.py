@@ -558,10 +558,23 @@ class DaHandler(metaclass=LogBase):
                     self.error(f"Error: Couldn't detect partition: {partition}\nAvailable partitions:")
                     for rpartition in res[1]:
                         self.info(rpartition.name)
-        if count_fp == len(partitions) and count_fp > 1:
-            print("All partitions formatted.")
-        elif count_fp != len(partitions) and count_fp > 1:
-            print("Failed to format all partitions.")
+            if count_fp == len(partitions) and count_fp > 1:
+                print("All partitions formatted.")
+            elif count_fp != len(partitions) and count_fp > 1:
+                print("Failed to format all partitions.")
+        else:
+            pos = 0
+            for partitionname in partitions:
+                if self.mtk.daloader.formatflash(addr=pos,
+                                                length=0xF000000,
+                                                partitionname=partitionname,
+                                                parttype=parttype,
+                                                display=True):
+                    print(f"Formatted partition {partitionname} at sector {str(pos // 0x200)}")
+                    count_fp += 1
+                else:
+                    print(f"Failed to format partition {partitionname} at sector {str(pos // 0x200)}")
+                    count_fp -= 1
 
     def da_ess(self, sector: int, sectors: int, parttype: str):
         if parttype == "user" or parttype is None:
