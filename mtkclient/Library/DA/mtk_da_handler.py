@@ -408,6 +408,61 @@ class DaHandler(metaclass=LogBase):
                                            length=length,
                                            filename=filename, parttype=parttype)
 
+
+    def da_rsc(self, parttype: str, filenames: list, partitions: list):
+            if len(partitions) != len(filenames):
+                self.error("You need to gives as many filenames as given partitions.")
+                self.close()
+                exit(0)
+            if parttype == "user" or parttype is None:
+                i = 0
+                for partition in partitions:
+                    partfilename = filenames[i]
+                    i += 1
+                    if partition == "gpt":
+                        self.mtk.daloader.writeflash()
+                        continue
+                    res = self.mtk.daloader.detect_partition(partition, parttype)
+                    if res[0]:
+                        rpartition = res[1]
+                        if self.mtk.daloader.rsc(partition, partfilename):
+                            print(
+                                f"RSC {partfilename} to sector {str(rpartition.sector)} with "
+                                + f"sector count {str(rpartition.sectors)}."
+                            )
+                        else:
+                            print(
+                                f"Failed to write {partfilename} to sector {str(rpartition.sector)} with "
+                                + f"sector count {str(rpartition.sectors)}."
+                            )
+                    else:
+                        self.error(
+                            f"Error: Couldn't detect partition: {partition}\nAvailable partitions:"
+                        )
+                        for rpartition in res[1]:
+                            self.info(rpartition.name)
+            else:
+                pos = 0
+                for partfilename in filenames:
+                    size = os.stat(partfilename).st_size
+                    if self.mtk.daloader.rsc(partition, partfilename):
+                        print(
+                            f"RSC {partfilename} to sector {str(rpartition.sector)} with "
+                            + f"sector count {str(rpartition.sectors)}."
+                        )
+                        print(
+                            f"RSC {partfilename} to sector {str(pos // 0x200)} with "
+                            + f"sector count {str(size)}."
+                        )
+                    else:
+                        print(
+                            f"Failed to write {partfilename} to sector {str(pos // 0x200)} with "
+                            + f"sector count {str(size)}."
+                        )
+                    psize = size // 0x200 * 0x200
+                    if size % 0x200 != 0:
+                        psize += 0x200
+
     def da_footer(self, filename: str):
         data, guid_gpt = self.mtk.daloader.get_gpt()
         if guid_gpt is None:
@@ -821,6 +876,13 @@ class DaHandler(metaclass=LogBase):
             filenames = filename.split(",")
             partitions = partitionname.split(",")
             self.da_write(parttype=parttype, filenames=filenames, partitions=partitions)
+        elif cmd == "rsc":
+            partitionname = args.partitionname
+            filename = args.filename
+            parttype = "user"
+            filenames = filename.split(",")
+            partitions = partitionname.split(",")
+            self.da_rsc(parttype=parttype, filenames=filenames, partitions=partitions)
         elif cmd == "wl":
             directory = args.directory
             parttype = args.parttype

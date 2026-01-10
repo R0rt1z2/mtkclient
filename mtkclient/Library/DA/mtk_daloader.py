@@ -304,6 +304,11 @@ class DAloader(metaclass=LogBase):
             return True
         return False
 
+    def rsc(self, partname, filename, display=True):
+        return self.da.set_rsc_info(
+            partname=partname, filename=filename, display=display
+        )
+
     def writeflash(self, addr, length, filename: str = "", offset=0, parttype=None, wdata=None, display=True):
         return self.da.writeflash(addr=addr, length=length, filename=filename, offset=offset,
                                   parttype=parttype, wdata=wdata, display=display)

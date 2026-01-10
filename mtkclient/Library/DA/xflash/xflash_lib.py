@@ -1019,6 +1019,51 @@ class DAXFlash(metaclass=LogBase):
                 return True
         return False
 
+    def set_rsc_info(self, partname: str, filename: str, display=True):
+        if not os.path.exists(filename):
+            self.error(f"File not found: {filename}")
+            return False
+
+        filesize = os.path.getsize(filename)
+        offset = 0
+        chunk_size = 256
+        self.info("RSC")
+        with open(filename, "rb") as f:
+            while True:
+                data = f.read(chunk_size)
+                if not data:
+                    break
+
+                if len(data) < chunk_size:
+                    data += b"\x00" * (chunk_size - len(data))
+
+                payload = bytearray()
+                payload.append(0x00)
+                payload.extend(offset.to_bytes(8, "little")[:7])
+
+                pname = partname.encode("ascii", errors="ignore")[:63]
+                payload.extend(pname + b"\x00" * (64 - len(pname)))
+
+                payload.extend(data)
+
+                assert len(payload) == 328, f"Payload length mismatch: {len(payload)}"
+
+                if not self.send_devctrl(self.Cmd.SET_RSC_INFO, [payload]):
+                    self.error(f"SetRscInfo failed at offset {offset}")
+                    return False
+
+                if display and hasattr(self.mtk, "daloader"):
+                    self.mtk.daloader.progress.show_progress(
+                        "SetRSC",
+                        min((offset + 1) * chunk_size, filesize),
+                        filesize,
+                        display,
+                    )
+
+                offset += 1
+
+        return True
+
     def setup_hw_init(self):
         if self.xsend(self.Cmd.SETUP_HW_INIT_PARAMS):
             param = pack("<I", 0x0)  # No config

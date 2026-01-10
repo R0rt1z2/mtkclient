@@ -38,7 +38,8 @@ cmds = {
     "plstage": "Run stage2 payload via preloader mode (send_da)",
     "da": "Run da xflash/legacy special commands",
     "script": "Run multiple commands using text script",
-    "multi": 'Run multiple commands using a semicolon-separated list (enclose list in quotes)'
+    "multi": 'Run multiple commands using a semicolon-separated list (enclose list in quotes)',
+    "rsc": "RSC"
 }
 
 
@@ -66,6 +67,7 @@ def main():
     parser_ro = subparsers.add_parser("ro", help="Read flash starting at offset to filename")
     parser_fs = subparsers.add_parser("fs", help="Mount the device as a FUSE filesystem")
     parser_w = subparsers.add_parser("w", help="Write partition from filename")
+    parser_rsc = subparsers.add_parser("rsc", help="Write partition from filename")
     parser_wf = subparsers.add_parser("wf", help="Write flash from filename")
     parser_wl = subparsers.add_parser("wl", help="Write partitions from directory path to flash")
     parser_wo = subparsers.add_parser("wo", help="Write flash starting at offset from filename")
@@ -462,6 +464,18 @@ def main():
     parser_w.add_argument('--socid', help='Read Soc ID')
     parser_w.add_argument('--auth', type=str, help="Use auth file (auth_sv5.auth)")
     parser_w.add_argument('--cert', type=str, help="Use cert file")
+
+    parser_rsc.add_argument(
+        "partitionname",
+        help="Partition to write (separate by comma for multiple partitions)",
+    )
+    parser_rsc.add_argument(
+        "filename",
+        help="Filename for writing (separate by comma for multiple filenames)",
+    )
+    parser_rsc.add_argument(
+        "--loader", type=str, help="Use specific DA loader, disable autodetection"
+    )
 
     parser_wf.add_argument('filename', help='Filename to write to flash')
     parser_wf.add_argument('--loader', type=str, help='Use specific DA loader, disable autodetection')
